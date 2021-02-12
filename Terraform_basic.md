@@ -68,7 +68,7 @@ region = "us-east-1"
 - Declare explicitly with 'list'
 `variable "cidrs" { type = list }`
 
-#### Maps / Dict :
+#### [Maps / Dict :](https://learn.hashicorp.com/tutorials/terraform/aws-variables?in=terraform/aws-get-started#assigning-maps)
 ```
 variable "amis" {
   type = "map"
@@ -78,4 +78,10 @@ variable "amis" {
   }
 }
 
+```
+```
+resource "aws_instance" "example" {
+  ami           = var.amis[var.region]
+  instance_type = "t2.micro"
+}
 ```
