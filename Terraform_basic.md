@@ -31,7 +31,35 @@ resource "aws_instance" "example" {
 - After Terraform apply : 
 - When the value displayed is (known after apply), it means that the value won't be known until the resource is created.
 - When you applied your configuration, Terraform wrote data into a file called terraform.tfstate. This file now contains the IDs and properties of the resources Terraform created so that it can manage or destroy those resources going forward.
-- provider that is built in to Terraform itself `terraform_remote_state  terraform.io/builtin/terraform`
+- Provider that is built in to Terraform itself `terraform_remote_state  terraform.io/builtin/terraform`
 
 - **Terraform Core** reads the configuration and builds the resource dependency graph.
 - **Terraform Plugins** (providers and provisioners) bridge Terraform Core and their respective target APIs. Terraform provider plugins implement resources via basic CRUD (create, read, update, and delete) APIs to communicate with third party services.
+- Terraform Core reads the configuration and builds the resource dependency graph.
+- Terraform Plugins (providers and provisioners) bridge Terraform Core and their respective target APIs. Terraform provider plugins implement resources via basic CRUD (create, read, update, and delete) APIs to communicate with third party services.
+
+#### Variable can be specified in 3 ways 
+1.	export TF_VAR_region=”us-east-1” && Terraform apply 
+2.	From Variables.tf file
+```cat  variables.tf
+variable “region” {
+	 default = "us-east-1"
+}
+```
+- in main.tf file 
+```
+provider "aws" {
+  profile = "default"
+  region  = var.region 
+} 
+```
+3. Command line if above var file is not created `terraform apply -var="region=us-east-1"` this will not save conf in any files.
+4. create a file name terraform.tfvar or auto.tfvar 
+
+```cat terraform.tfvar
+region = "us-east-1"
+```
+5. `terraform apply -var-file="abc.tfvar"` we can keep adding more --var-file tags with many files.
+
+
+
