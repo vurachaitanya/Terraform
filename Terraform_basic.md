@@ -62,10 +62,10 @@ region = "us-east-1"
 5. `terraform apply -var-file="abc.tfvar"` we can keep adding more --var-file tags with many files.
 
 #### List
-- # Declare implicitly by using brackets []
+- Declare implicitly by using brackets []
 `variable "cidrs" { default = [] }`
 
-- # Declare explicitly with 'list'
+- Declare explicitly with 'list'
 `variable "cidrs" { type = list }`
 
 #### Maps / Dict :
