@@ -145,8 +145,82 @@ variable "resource_tags" {
 
 - Type for the list variables is list(string). Each element in these lists must be a string. List elements must all be the same type, but can be any type, including complex types like list(list) and list(map).
 - you can refer to individual items in a list by index, starting with 0.
+```
+> var.private_subnet_cidr_blocks[1]
+"10.0.102.0/24"
+```
 - Use the slice() function to get a subset of these lists.
+```
+> slice(var.private_subnet_cidr_blocks, 0, 3)
+tolist([
+  "10.0.101.0/24",
+  "10.0.102.0/24",
+  "10.0.103.0/24",
+])
+```
 
 #### terraform console
 - The Terraform console command opens an interactive console that you can use to evaluate expressions in the context of your configuration. This can be very useful when working with and troubleshooting variable definitions.
 - Call varilables which are defined in variables.tf or any variables file can be called and debug using `var.aws_region`
+
+#### MAPS:
+- Setting the type to map(string) tells Terraform to expect strings for the values in the map. Map keys are always strings. Like dictionaries or maps from programming languages, you can retrieve values from a map with the corresponding key
+```
+variable "resource_tags" {
+  description = "Tags to set for all resources"
+  type        = map(string)
+  default     = {
+    project     = "project-alpha",
+    environment = "dev"
+  }
+}
+```
+- Can retrive the data using Key value `var.resource_tags["environment"]`
+
+#### Assign values when prompted
+- Terraform will prompt you for a value. Entering variable values manually is time consuming and error prone, so Terraform provides several other ways to assign values to variables.
+- Terraform automatically loads all files in the current directory with the exact name terraform.tfvars or matching *.auto.tfvars. You can also use the -var-file flag to specify other files by name.
+- Create a file terraform.tfvars
+```
+resource_tags = {
+  project     = "new-project",
+  environment = "test",
+  owner       = "me@example.com"
+}
+
+ec2_instance_type = "t2.nano"
+
+instance_count = 3
+```
+#### Interpolate variables in strings
+- Terraform configuration supports string interpolation — inserting the output of an expression into a string. This allows you to use variables, local values, and the output of functions to create strings in your configuration.
+
+
+```
+name        = "web-sg-project-alpha-dev"
+name        = "web-sg-${var.resource_tags["project"]}-${var.resource_tags["environment"]}"
+
+```
+#### Validate variables
+- This configuration has a potential problem. AWS load balancers have naming restrictions. They must be no more than 32 characters long, and can only contain a limited set of characters.
+```
+variable "resource_tags" {
+  description = "Tags to set for all resources"
+  type        = map(string)
+  default     = {
+    project     = "my-project",
+    environment = "dev"
+  }
+
+  validation {
+    condition     = length(var.resource_tags["project"]) <= 16 && length(regexall("/[^a-zA-Z0-9-]/", var.resource_tags["project"])) == 0
+    error_message = "The project tag must be no more than 16 characters, and only contain letters, numbers, and hyphens."
+  }
+
+  validation {
+    condition     = length(var.resource_tags["environment"]) <= 8 && length(regexall("/[^a-zA-Z0-9-]/", var.resource_tags["environment"])) == 0
+    error_message = "The environment tag must be no more than 8 characters, and only contain letters, numbers, and hyphens."
+  }
+}
+```
+
