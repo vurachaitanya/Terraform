@@ -195,8 +195,10 @@ instance_count = 3
 #### Interpolate variables in strings
 - Terraform configuration supports string interpolation — inserting the output of an expression into a string. This allows you to use variables, local values, and the output of functions to create strings in your configuration.
 
-
 ```
+Access_key = “${var.aws_access_key}”
+Secret_key = “${var.aws_secret_key}”
+
 name        = "web-sg-project-alpha-dev"
 name        = "web-sg-${var.resource_tags["project"]}-${var.resource_tags["environment"]}"
 
@@ -224,3 +226,6 @@ variable "resource_tags" {
 }
 ```
 
+#### IF Condetion	
+- If above env is production then var.prod_subnet will be taking the subnet values else it takes var.dev_subnet values. 
+`subnet = “${var.env == “production” ? var.prod_subnet : var.dev_subnet}”`
