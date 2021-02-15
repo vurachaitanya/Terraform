@@ -85,3 +85,60 @@ resource "aws_instance" "example" {
   instance_type = "t2.micro"
 }
 ```
+
+####  Variable blocks have three optional arguments.
+
+- Description: A short description to document the purpose of the variable.
+- Type: The type of data contained in the variable.
+- Default: The default value.
+
+```
+########### String
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-west-2"
+}
+
+################ Number
+variable "instance_count" {
+  description = "Number of instances to provision."
+  type        = number
+  default     = 2
+}
+
+################ Boolian
+variable "enable_vpn_gateway" {
+  description = "Enable a VPN gateway in your VPC."
+  type        = bool
+  default     = false
+}
+
+################## List 
+variable "private_subnet_cidr_blocks" {
+  description = "Available cidr blocks for private subnets."
+  type        = list(string)
+  default     = [
+    "10.0.101.0/24",
+    "10.0.102.0/24",
+    "10.0.103.0/24",
+    "10.0.104.0/24",
+    "10.0.105.0/24",
+    "10.0.106.0/24",
+    "10.0.107.0/24",
+    "10.0.108.0/24",
+  ]
+}
+
+
+#################### Dic / Map
+variable "resource_tags" {
+  description = "Tags to set for all resources"
+  type        = map(string)
+  default     = {
+    project     = "project-alpha",
+    environment = "dev"
+  }
+}
+
+```
