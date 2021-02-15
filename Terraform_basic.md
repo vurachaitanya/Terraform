@@ -142,3 +142,11 @@ variable "resource_tags" {
 }
 
 ```
+
+- Type for the list variables is list(string). Each element in these lists must be a string. List elements must all be the same type, but can be any type, including complex types like list(list) and list(map).
+- you can refer to individual items in a list by index, starting with 0.
+- Use the slice() function to get a subset of these lists.
+
+#### terraform console
+- The Terraform console command opens an interactive console that you can use to evaluate expressions in the context of your configuration. This can be very useful when working with and troubleshooting variable definitions.
+- Call varilables which are defined in variables.tf or any variables file can be called and debug using `var.aws_region`
