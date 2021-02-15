@@ -229,3 +229,24 @@ variable "resource_tags" {
 #### IF Condetion	
 - If above env is production then var.prod_subnet will be taking the subnet values else it takes var.dev_subnet values. 
 `subnet = “${var.env == “production” ? var.prod_subnet : var.dev_subnet}”`
+
+
+- [Built in function](www.terraform.io/docs/configuration/interpolation.html)
+- **HCL** : Hashicorp configuration language
+- When file **xxx_override.tf** is created it over rights the other files and take preceding of override files.
+- **Output** 
+ ```
+ Output "output” {
+	  value = “${aws_instacne.webserver.public_dns}”
+	}
+- Sensitive output will not show on screen
+- Terraform output will show the sensitive data too.
+```
+output “output” {
+	  Sensitive = true
+	  Value = “${aws_instacne.webserver.public_dns}”
+	}
+- Provider should be initialized first and then resource should be used in second. 
+- Many provider can be kept and alias can also ben given.
+- Provider can have config items and key values.
+- 3rd party providers plugins can be added under ~/.terraform.d/plugins
