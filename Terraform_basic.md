@@ -86,7 +86,7 @@ resource "aws_instance" "example" {
 }
 ```
 
-####  Variable blocks have three optional arguments.
+####  [Variable blocks have three optional arguments.](https://learn.hashicorp.com/tutorials/terraform/variables?in=terraform/configuration-language)
 
 - Description: A short description to document the purpose of the variable.
 - Type: The type of data contained in the variable.
