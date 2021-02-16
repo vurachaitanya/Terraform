@@ -24,7 +24,7 @@ output "chaild_memory" {
 - `terraform get` will get the required modules to local.
 - `terraform refresh -var-file='../terraform..tfvars'`
 
-
+#### Locals :
 - In main.cf
 - It should be unique 
 - can only valied in local module.
