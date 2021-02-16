@@ -44,3 +44,32 @@ timeout {
   delete = "1h"
 }
 ```
+
+#### Data sources configurations
+- Fetch the avilability zones mapped to the aws provider
+- list of zones from aws which we will use later
+- data source is of the form data TYPE Name where
+- TYPE = aws_availability_zones
+- Name = "avilable"
+
+- Define data block 
+`data "availability_zones` "avilable" {}`
+- used in resurces
+```
+resource "aws_subnet" "subnet1" {
+  cidr_block = "${var.subnet1_address_space}"
+  vpc_id = "${aws_vpc.vpc.id}"
+  map_public_ip_on_launch = "true"
+  availablity_zone = "${data.aws_availability_zones.available.names[0]}"
+}
+  
+```
+- **Data sources**
+- Data sources support some meta-parameters
+- Data sources present read-only views
+- All data sources are mapped to a provider
+
+- **Override**
+- Override files are merged with loaded configuration files
+- Override files are loaded in alphabetical order
+- Override files are loaded after non-override files
