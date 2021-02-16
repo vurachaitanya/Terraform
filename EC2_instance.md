@@ -173,3 +173,32 @@ output "child_memory" {
  }
   
 ```
+### Variable:
+- defined in variable.tf file.
+- Syntax :
+`variable "aws_access_key" {}`
+```
+variable "key_name" {
+  type = "string"
+  default = "administrator-key-pair-uswest1"
+}
+```
+- We can give variables in list and map
+
+```
+variable "zones" {
+  type = "list"
+  default = ["us-west-1a","us-west-1b"]
+ }
+```
+
+```
+variable "image" {
+  type = "map"
+  default = {
+    us-west-1 = "ami-1c1d217c"
+	us-west-2 = "ami-0a00ce72"
+  }
+}
+```
+- can called using `"${var.image.["us-west-1"]}"`
