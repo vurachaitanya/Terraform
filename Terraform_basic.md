@@ -12,6 +12,9 @@
 ##### Terraform Provider :
 - Terraform is used to create, manage, and update infrastructure resources such as physical machines, VMs, network switches, containers, and more. A provider is responsible for understanding API interactions and exposing resources.
 
+##### Terraform state :
+- Terraform to map real-world resources to your configuration, keep track of metadata, and to improve performance for large infrastructures
+
 ##### Planning
 - The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. 
 
