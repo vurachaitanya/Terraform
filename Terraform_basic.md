@@ -1,10 +1,16 @@
 ### Terraform 
 
-##### Terraform Core 
-The Terraform Core utilizes remote procedure calls (RPCs) for communicating with Terraform Plugins. In addition, Terraform Core also offers diverse ways of discovering and loading plugins according to requirements.
+##### Terraform Core : 
+- The Terraform Core utilizes remote procedure calls (RPCs) for communicating with Terraform Plugins. In addition, Terraform Core also offers diverse ways of discovering and loading plugins according to requirements.
 
-#####Terraform Plugins :
-The Terraform Plugins represent an implementation for a specific service such as bash or AWS or provisioner.
+##### Terraform Plugins :
+- The Terraform Plugins represent an implementation for a specific service such as bash or AWS or provisioner.
+
+##### Modules :
+- Terraform configuration has at least one module, known as its root module, which consists of the resources defined in the . tf files in the main working directory.
+
+##### Terraform Provider :
+- Terraform is used to create, manage, and update infrastructure resources such as physical machines, VMs, network switches, containers, and more. A provider is responsible for understanding API interactions and exposing resources.
 
 ##### Planning
 - The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. 
