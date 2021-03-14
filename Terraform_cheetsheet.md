@@ -4,7 +4,7 @@
 - `terraform init` helps Terraform read configuration files in the working directory. Then, Terraform finds out the necessary plugins and searches for installed plugins in different locations. In addition, Terraform also downloads additional plugins at times. Then, it decides the plugin versions for using and writes a lock file for ensuring that Terraform will use the same plugin versions. 
 - `terraform output -raw` - shows output only in raw format.
 - `terraform graph | dot -Tsvg >graph.svg` Shows graph dig with dependency 
-- -	`terraform init` initialize a working direct
+- `terraform init` initialize a working direct
 -	`terraform plan` checks the dependency and download provider, modules and check the modules and download to current working dir
 -	`terraform providers` shows information about provider requirements of the configuration in the current working dir.
 -	`terraform fmt` rewrite Terraform configuration files to a canonical format and style. This command applies a subset of the Terraform language style conventions, along with other minor adjustments for readability.
