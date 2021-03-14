@@ -1,5 +1,14 @@
-
 ### Terraform 
+
+##### Planning
+- The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. 
+
+##### Applying
+- The terraform apply command performs a plan just like terraform plan does, but then actually carries out the planned changes to each resource using the relevant infrastructure provider's API. It asks for confirmation from the user before making any changes, unless it was explicitly told to skip approval.
+
+##### Destroying
+The terraform destroy command destroys all of the resources being managed by the current working directory and workspace, using state data to determine which real world objects correspond to managed resources.
+
 - `terraform graph | dot -Tsvg > graph.svg` as terraform stores in dot format, need to convert them.
 - Version 0.12 will not working with terraform{} – Block
 - Version 0.11 before version requires `terraform init` & `terraform plan`
