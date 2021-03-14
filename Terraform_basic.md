@@ -1,5 +1,11 @@
 ### Terraform 
 
+##### Terraform Core 
+The Terraform Core utilizes remote procedure calls (RPCs) for communicating with Terraform Plugins. In addition, Terraform Core also offers diverse ways of discovering and loading plugins according to requirements.
+
+#####Terraform Plugins :
+The Terraform Plugins represent an implementation for a specific service such as bash or AWS or provisioner.
+
 ##### Planning
 - The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. 
 
