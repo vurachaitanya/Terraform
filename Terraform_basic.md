@@ -1,8 +1,9 @@
 
 ### Terraform 
--	Version 0.12 will not working with terraform{} – Block
--	Version 0.11 before version requires `terraform init` & `terraform plan`
--	Below sample .tf file contains:
+- `terraform graph | dot -Tsvg > graph.svg` as terraform stores in dot format, need to convert them.
+- Version 0.12 will not working with terraform{} – Block
+- Version 0.11 before version requires `terraform init` & `terraform plan`
+- Below sample .tf file contains:
   - **Terraform block:** – only before version of terraform 0.12
   - **Required providers block:** – to know which providers are we using to get required API plugins.
   - **Provider block:** AWS provider specific like auth keys, region, IAM access, region etc.
