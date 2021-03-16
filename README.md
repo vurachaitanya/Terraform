@@ -3,6 +3,7 @@ Terraform Learning
 - Resource example :"aws_internet_gateway"
 - Provider example : "aws" in providers files.
 - [Git repo for sample terraform aws application build.](https://github.com/linuxacademy/content-deploying-to-aws-ansible-terraform/tree/master/iam_policies)
+- [Sample doc](https://medium.com/appgambit/terraform-aws-vpc-with-private-public-subnets-with-nat-4094ad2ab331)
 
 #### Sample Variable file :
 ```
