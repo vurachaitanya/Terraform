@@ -1,10 +1,19 @@
 # Terraform
-Terraform Learning
+
+### Terraform Learning
 - Resource example :"aws_internet_gateway"
 - Provider example : "aws" in providers files.
 - [Git repo for sample terraform aws application build.](https://github.com/linuxacademy/content-deploying-to-aws-ansible-terraform/tree/master/iam_policies)
 - [Sample doc](https://medium.com/appgambit/terraform-aws-vpc-with-private-public-subnets-with-nat-4094ad2ab331)
 
+### Tools :
+- [Terraform Graph - Blast radius](https://28mm.github.io/blast-radius-docs/)
+
+### Learnings
+- [Docker Blast radius deploy](https://github.com/28mm/blast-radius)
+- [Linuxfoundation Terraform deep dive](https://events19.linuxfoundation.org/wp-content/uploads/2017/12/Hashicorp-Terraform-Deep-Dive-with-no-Fear-Victor-Turbinsky-Texuna.pdf)
+- [awesome-terraform](https://github.com/shuaibiyy/awesome-terraform)
+- [CI/CD tools stack](https://blog.gruntwork.io/)
 #### Sample Variable file :
 ```
 #cat variable.tf
