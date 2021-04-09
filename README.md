@@ -8,6 +8,7 @@
 
 ### Tools :
 - [Terraform Graph - Blast radius](https://28mm.github.io/blast-radius-docs/)
+- [Terraform Chekov GUI tool](https://github.com/bridgecrewio/checkov/blob/master/docs/Chekov_sequence_diagram.png)
 
 ### Learnings
 - [Docker Blast radius deploy](https://github.com/28mm/blast-radius)
