@@ -9,6 +9,7 @@
 ### Tools :
 - [Terraform Graph - Blast radius](https://28mm.github.io/blast-radius-docs/)
 - [Terraform Chekov GUI tool](https://github.com/bridgecrewio/checkov/blob/master/docs/Chekov_sequence_diagram.png), [Scanning-terraform-module](https://github.com/bridgecrewio/checkov/blob/master/docs/scanning-terraform-module.png), [Scanns for failed modules](https://github.com/bridgecrewio/checkov/blob/master/docs/checkov-scan.png)
+- [Output from terraform plan get details](https://prettyplan.chrislewisdev.com/),[Git code works for x.11 only](https://github.com/chrislewisdev/prettyplan)
 
 ### Learnings
 - [Docker Blast radius deploy](https://github.com/28mm/blast-radius)
