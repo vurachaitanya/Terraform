@@ -16,3 +16,7 @@
 -	`terraform state list ` list all resources in the state file.
 -	`terraform state show` shows the attributes of a single resource
 -	`terraform taint` manually marks a terraform managed resource as tainted, forcing it to be destroyed and recreated on the next apply.
+- `terraform graph -verbose -draw-cycles -type=plan` - Graph based on plan
+`-type=plan - Type of graph to output. Can be: plan, plan-destroy, apply, validate, input, refresh`
+- `terraform graph -draw-cycles` - Draw cycles for modules providers etc.
+- `terraform graph | dot -Tsvg > graph.svg` - Graph from dot to svg format.
