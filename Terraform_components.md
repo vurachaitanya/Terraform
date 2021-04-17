@@ -141,3 +141,28 @@ data "aws_iam_policy_document" "s3_policy" {
 - The following example shows how the resource might be used to obtain the name of the AWS region configured on the provider.
   - `data "aws_region" "current" {}`
 
+
+### aws_iam_role :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role)
+- Provides an IAM role.
+
+```
+data "aws_iam_policy_document" "instance-assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "instance" {
+  name               = "instance_role"
+  path               = "/system/"
+  assume_role_policy = data.aws_iam_policy_document.instance-assume-role-policy.json
+}
+```
+
+### 
