@@ -114,3 +114,30 @@ resource "aws_iam_policy" "example" {
 }
 ```
 
+### aws_partition: 
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition)
+- Use this data source to lookup information about the current AWS partition in which Terraform is working.
+```
+data "aws_partition" "current" {}
+
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    sid = "1"
+
+    actions = [
+      "s3:ListBucket",
+    ]
+
+    resources = [
+      "arn:${data.aws_partition.current.partition}:s3:::my-bucket",
+    ]
+  }
+}
+```
+
+### aws_region:
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region)
+- As well as validating a given region name this resource can be used to discover the name of the region configured within the provider. The latter can be useful in a child module which is inheriting an AWS provider configuration from its parent module.
+- The following example shows how the resource might be used to obtain the name of the AWS region configured on the provider.
+  - `data "aws_region" "current" {}`
+
