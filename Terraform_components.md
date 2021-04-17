@@ -1,5 +1,28 @@
 ## Terraform Components
 
+
+### Terraform Environment variables :
+- [TF Env Variables](https://www.terraform.io/docs/cli/config/environment-variables.html)
+
+### Variable :
+- [Terraform Doc Reff](https://www.terraform.io/docs/language/values/variables.html#declaring-an-input-variable)
+- Input variables serve as parameters for a Terraform module, allowing aspects of the module to be customized without altering the module's own source code, and allowing modules to be shared between different configurations.
+- When you declare variables in the root module of your configuration, you can set their values using CLI options and environment variables
+```
+variable "user_information" {
+  type = object({
+    name    = string
+    address = string
+  })
+  sensitive = true
+}
+
+resource "some_resource" "a" {
+  name    = var.user_information.name
+  address = var.user_information.address
+}
+```
+
 ### Locals :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/values/locals.html)
 - A local value assigns a name to an expression, so you can use it multiple times within a module without repeating it.
