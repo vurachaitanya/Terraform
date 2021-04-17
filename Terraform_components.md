@@ -1,5 +1,36 @@
 ## Terraform Components
 
+### Locals :
+- [Terraform Doc Reff](https://www.terraform.io/docs/language/values/locals.html)
+- A local value assigns a name to an expression, so you can use it multiple times within a module without repeating it.
+- If you're familiar with traditional programming languages, it can be useful to compare Terraform modules to function definitions:
+  - Input variables are like function arguments.
+  - Output values are like function return values.
+  - Local values are like a function's temporary local variables.
+
+ ```
+ locals {
+  service_name = "forum"
+  owner        = "Community Team"
+}
+ ```
+ - **Note**: Local values are created by a locals block (plural), but you reference them as attributes on an object named local (singular). Make sure to leave off the "s" when referencing a local value!
+ ```
+ locals {
+  # Common tags to be assigned to all resources
+  common_tags = {
+    Service = local.service_name
+    Owner   = local.owner
+  }
+}
+
+resource "aws_instance" "example" {
+  # ...
+
+  tags = local.common_tags
+}
+```
+
 ### Data Sources :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/data-sources/index.html)
 - [Terraform tutorial Reff](https://learn.hashicorp.com/tutorials/terraform/data-sources?in=terraform/configuration-language&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS)
