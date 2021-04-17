@@ -1,6 +1,6 @@
 ## Terraform Components
 
-#### Data Sources :
+### Data Sources :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/data-sources/index.html)
 - [Terraform tutorial Reff](https://learn.hashicorp.com/tutorials/terraform/data-sources?in=terraform/configuration-language&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS)
 - Data sources allow data to be fetched or computed for use elsewhere in Terraform configuration. Use of data sources allows a Terraform configuration to make use of information defined outside of Terraform, or defined by another separate Terraform configuration.
@@ -8,7 +8,7 @@
 - The data source and name together serve as an identifier for a given resource and so must be unique within a module.
 
 
-#### aws_cloudwatch_event_rule :
+### aws_cloudwatch_event_rule :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule)
 - EventBridge was formerly known as CloudWatch Events. The functionality is identical.
 
@@ -27,7 +27,7 @@ EOF
 }
 ```
 
-##### aws_cloudwatch_event_target :
+#### aws_cloudwatch_event_target :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule)
 - Event Trigger with ARN will help to triger the event block to cloudwatch.
 
@@ -39,7 +39,7 @@ resource "aws_cloudwatch_event_target" "sns" {
 }
 ```
 
-#### aws_lambda_permission :
+### aws_lambda_permission :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission)
 - Gives an external source (like a CloudWatch Event Rule, SNS, or S3) permission to access the Lambda function.
 
@@ -54,7 +54,7 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
 }
 ```
 
-#### aws_cloudwatch_log_group :
+### aws_cloudwatch_log_group :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group)
 - Provides a CloudWatch Log Group resource.
 ```
