@@ -263,3 +263,36 @@ resource "aws_lambda_function" "test_lambda" {
   }
 }
 ```
+
+### archive_file :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/archive_file)
+- Generates an archive from content, a file, or directory of files.
+
+- Archive a single file.
+```
+data "archive_file" "init" {
+  type        = "zip"
+  source_file = "${path.module}/init.tpl"
+  output_path = "${path.module}/files/init.zip"
+}
+```
+
+- Archive multiple files and exclude file.
+
+```
+data "archive_file" "dotfiles" {
+  type        = "zip"
+  output_path = "${path.module}/files/dotfiles.zip"
+  excludes    = [ "${path.module}/unwanted.zip" ]
+
+  source {
+    content  = "${data.template_file.vimrc.rendered}"
+    filename = ".vimrc"
+  }
+
+  source {
+    content  = "${data.template_file.ssh_config.rendered}"
+    filename = ".ssh/config"
+  }
+}
+```
