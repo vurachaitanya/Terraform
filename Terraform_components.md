@@ -88,6 +88,34 @@ resource "aws_instance" "example" {
 - The data source and name together serve as an identifier for a given resource and so must be unique within a module.
 
 
+### aws_lambda_function_event_invoke_config :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function_event_invoke_config)
+- Manages an asynchronous invocation configuration for a Lambda Function or Alias. 
+```
+resource "aws_lambda_function_event_invoke_config" "example" {
+  function_name = aws_lambda_alias.example.function_name
+
+  destination_config {
+    on_failure {
+      destination = aws_sqs_queue.example.arn
+    }
+
+    on_success {
+      destination = aws_sns_topic.example.arn
+    }
+  }
+}
+```
+- Error Handling Configuration
+```
+resource "aws_lambda_function_event_invoke_config" "example" {
+  function_name                = aws_lambda_alias.example.function_name
+  maximum_event_age_in_seconds = 60
+  maximum_retry_attempts       = 0
+}
+```
+
+
 
 ### aws_cloudwatch_event_rule :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule)
