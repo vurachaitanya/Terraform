@@ -69,3 +69,14 @@ resource "aws_cloudwatch_log_group" "yada" {
 }
 
 ```
+### aws_caller_identity
+- [Terraform Doc Reff]](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity)
+- Use this data source to get the access to the effective Account ID, User ID, and ARN in which Terraform is authorized.
+
+```
+data "aws_caller_identity" "current" {}
+
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
+```
