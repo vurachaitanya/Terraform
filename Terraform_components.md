@@ -4,6 +4,7 @@
 ### Terraform Environment variables :
 - [TF Env Variables](https://www.terraform.io/docs/cli/config/environment-variables.html)
 
+
 ### Variable :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/values/variables.html#declaring-an-input-variable)
 - Input variables serve as parameters for a Terraform module, allowing aspects of the module to be customized without altering the module's own source code, and allowing modules to be shared between different configurations.
@@ -22,6 +23,7 @@ resource "some_resource" "a" {
   address = var.user_information.address
 }
 ```
+
 
 ### Locals :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/values/locals.html)
@@ -54,12 +56,37 @@ resource "aws_instance" "example" {
 }
 ```
 
+
+### lifecycle:
+- [Terraform Doc Reff](https://www.terraform.io/docs/language/meta-arguments/lifecycle.html)
+- Lifecycle customizations to change default resource behaviours during apply
+- lifecycle is a nested block that can appear within a resource block. The lifecycle block and its contents are meta-arguments, available for all resource blocks regardless of type.
+  - create_before_destroy - bool
+  - prevent_destroy - bool
+  - ignore_changes - list of attribute names
+```
+resource "aws_instance" "example" {
+  # ...
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      tags,
+    ]
+  }
+}
+
+```
+
+
 ### Data Sources :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/data-sources/index.html)
 - [Terraform tutorial Reff](https://learn.hashicorp.com/tutorials/terraform/data-sources?in=terraform/configuration-language&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS)
 - Data sources allow data to be fetched or computed for use elsewhere in Terraform configuration. Use of data sources allows a Terraform configuration to make use of information defined outside of Terraform, or defined by another separate Terraform configuration.
 - The name is used to refer to this resource from elsewhere in the same Terraform module, but has no significance outside of the scope of a module.
 - The data source and name together serve as an identifier for a given resource and so must be unique within a module.
+
 
 
 ### aws_cloudwatch_event_rule :
@@ -81,6 +108,8 @@ EOF
 }
 ```
 
+
+
 #### aws_cloudwatch_event_target :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule)
 - Event Trigger with ARN will help to triger the event block to cloudwatch.
@@ -92,6 +121,8 @@ resource "aws_cloudwatch_event_target" "sns" {
   arn       = aws_sns_topic.aws_logins.arn
 }
 ```
+
+
 
 ### aws_lambda_permission :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission)
@@ -107,6 +138,8 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
   qualifier     = aws_lambda_alias.test_alias.name
 }
 ```
+
+
 
 ### aws_cloudwatch_log_group :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group)
@@ -124,6 +157,8 @@ resource "aws_cloudwatch_log_group" "yada" {
 
 ```
 
+
+
 ### aws_caller_identity
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity)
 - Use this data source to get the access to the effective Account ID, User ID, and ARN in which Terraform is authorized.
@@ -135,6 +170,8 @@ output "account_id" {
   value = data.aws_caller_identity.current.account_id
 }
 ```
+
+
 
 ### aws_iam_policy_document :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document)
@@ -157,6 +194,7 @@ data "aws_iam_policy_document" "example" {
 ```
 
 
+
 ### aws_iam_policy:
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy)
 - Provides an IAM policy.
@@ -167,6 +205,8 @@ resource "aws_iam_policy" "example" {
   policy = data.aws_iam_policy_document.example.json
 }
 ```
+
+
 
 ### aws_partition: 
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition)
@@ -189,11 +229,15 @@ data "aws_iam_policy_document" "s3_policy" {
 }
 ```
 
+
+
 ### aws_region:
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region)
 - As well as validating a given region name this resource can be used to discover the name of the region configured within the provider. The latter can be useful in a child module which is inheriting an AWS provider configuration from its parent module.
 - The following example shows how the resource might be used to obtain the name of the AWS region configured on the provider.
   - `data "aws_region" "current" {}`
+
+
 
 
 ### aws_iam_role :
@@ -218,6 +262,8 @@ resource "aws_iam_role" "instance" {
   assume_role_policy = data.aws_iam_policy_document.instance-assume-role-policy.json
 }
 ```
+
+
 
 ### aws_iam_role_policy_attachment :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment)
@@ -271,6 +317,7 @@ resource "aws_iam_role_policy_attachment" "test-attach" {
 ```
 
 
+
 ### aws_lambda_function :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function)
 - Provides a Lambda Function resource. Lambda allows you to trigger execution of code in response to events in AWS, enabling serverless backend solutions. The Lambda Function itself includes source code and runtime configuration.
@@ -317,6 +364,8 @@ resource "aws_lambda_function" "test_lambda" {
   }
 }
 ```
+
+
 
 ### archive_file :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/archive_file)
