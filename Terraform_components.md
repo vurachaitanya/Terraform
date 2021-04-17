@@ -69,8 +69,9 @@ resource "aws_cloudwatch_log_group" "yada" {
 }
 
 ```
+
 ### aws_caller_identity
-- [Terraform Doc Reff]](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity)
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity)
 - Use this data source to get the access to the effective Account ID, User ID, and ARN in which Terraform is authorized.
 
 ```
@@ -80,3 +81,36 @@ output "account_id" {
   value = data.aws_caller_identity.current.account_id
 }
 ```
+
+### aws_iam_policy_document :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document)
+- Generates an IAM policy document in JSON format for use with resources that expect policy documents such as `aws_iam_policy`
+- Using this data source to generate policy documents is optional. It is also valid to use literal JSON strings in your configuration or to use the file interpolation function to read a raw JSON policy document from a file.
+```
+data "aws_iam_policy_document" "example" {
+  statement {
+    sid = "1"
+
+    actions = [
+      "s3:ListAllMyBuckets",
+      "s3:GetBucketLocation",
+    ]
+
+    resources = [
+      "arn:aws:s3:::*",
+    ]
+  }
+```
+
+
+### aws_iam_policy:
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy)
+- Provides an IAM policy.
+```
+resource "aws_iam_policy" "example" {
+  name   = "example_policy"
+  path   = "/"
+  policy = data.aws_iam_policy_document.example.json
+}
+```
+
