@@ -57,6 +57,38 @@ resource "aws_instance" "example" {
 ```
 
 
+
+### output :
+- [Terraform Doc Reff](https://www.terraform.io/docs/language/values/outputs.html)
+- Output values are like the return values of a Terraform module, and have several uses:
+  - A child module can use outputs to expose a subset of its resource attributes to a parent module.
+  - A root module can use outputs to print certain values in the CLI output after running terraform apply.
+  - When using remote state, root module outputs can be accessed by other configurations via a terraform_remote_state data source.
+- Resource instances managed by Terraform each export attributes whose values can be used elsewhere in configuration. Output values are a way to expose some of that information to the user of your module.
+- Terraform analyzes the value expression for an output value and automatically determines a set of dependencies, but in less-common cases there are dependencies that cannot be recognized implicitly. In these rare cases, the depends_on argument can be used to create additional explicit dependencies:
+```
+output "instance_ip_addr" {
+  value       = aws_instance.server.private_ip
+  description = "The private IP address of the main server instance."
+
+  depends_on = [
+    # Security group rule must be created before this IP address could
+    # actually be used, otherwise the services will be unreachable.
+    aws_security_group_rule.local_access,
+  ]
+}
+```
+- Terraform will hide values marked as sensitive in the messages from terraform plan and terraform apply. In the following scenario, our root module has an output declared as sensitive and a module call with a sensitive output, which we then use in a resource attribute.
+```
+output "db_password" {
+  value       = aws_db_instance.db.password
+  description = "The password for logging in to the database."
+  sensitive   = true
+}
+```
+
+
+
 ### lifecycle:
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/meta-arguments/lifecycle.html)
 - Lifecycle customizations to change default resource behaviours during apply
