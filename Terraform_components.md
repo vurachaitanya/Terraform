@@ -5,6 +5,8 @@
 - [TF Env Variables](https://www.terraform.io/docs/cli/config/environment-variables.html)
 
 
+
+
 ### Variable :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/values/variables.html#declaring-an-input-variable)
 - Input variables serve as parameters for a Terraform module, allowing aspects of the module to be customized without altering the module's own source code, and allowing modules to be shared between different configurations.
@@ -23,6 +25,7 @@ resource "some_resource" "a" {
   address = var.user_information.address
 }
 ```
+
 
 
 ### Locals :
@@ -53,6 +56,45 @@ resource "aws_instance" "example" {
   # ...
 
   tags = local.common_tags
+}
+```
+
+
+
+### depends_on :
+- [Terraform Doc Reff](https://www.terraform.io/docs/language/meta-arguments/depends_on.html)
+- Explicitly specifying a dependency is only necessary when a resource or module relies on some other resource's behavior but doesn't access any of that resource's data in its arguments.
+- This argument is available in module blocks and in all resource blocks, regardless of resource type.
+
+```
+resource "aws_iam_role_policy" "example" {
+  name   = "example"
+  role   = aws_iam_role.example.name
+  policy = jsonencode({
+    "Statement" = [{
+      # This policy allows software running on the EC2 instance to
+      # access the S3 API.
+      "Action" = "s3:*",
+      "Effect" = "Allow",
+    }],
+  })
+}
+
+resource "aws_instance" "example" {
+  ami           = "ami-a1b2c3d4"
+  instance_type = "t2.micro"
+
+  # Terraform can infer from this that the instance profile must
+  # be created before the EC2 instance.
+  iam_instance_profile = aws_iam_instance_profile.example
+
+  # However, if software running in this EC2 instance needs access
+  # to the S3 API in order to boot properly, there is also a "hidden"
+  # dependency on the aws_iam_role_policy that Terraform cannot
+  # automatically infer, so it must be declared explicitly:
+  depends_on = [
+    aws_iam_role_policy.example,
+  ]
 }
 ```
 
@@ -112,12 +154,16 @@ resource "aws_instance" "example" {
 ```
 
 
+
+
 ### Data Sources :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/data-sources/index.html)
 - [Terraform tutorial Reff](https://learn.hashicorp.com/tutorials/terraform/data-sources?in=terraform/configuration-language&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS)
 - Data sources allow data to be fetched or computed for use elsewhere in Terraform configuration. Use of data sources allows a Terraform configuration to make use of information defined outside of Terraform, or defined by another separate Terraform configuration.
 - The name is used to refer to this resource from elsewhere in the same Terraform module, but has no significance outside of the scope of a module.
 - The data source and name together serve as an identifier for a given resource and so must be unique within a module.
+
+
 
 
 ### aws_lambda_function_event_invoke_config :
