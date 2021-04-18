@@ -505,3 +505,53 @@ data "archive_file" "dotfiles" {
   }
 }
 ```
+
+
+### aws_sns_topic :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic)
+- Provides an SNS topic resource
+
+```
+resource "aws_sns_topic" "user_updates" {
+  name            = "user-updates-topic"
+  delivery_policy = <<EOF
+{
+  "http": {
+    "defaultHealthyRetryPolicy": {
+      "minDelayTarget": 20,
+      "maxDelayTarget": 20,
+      "numRetries": 3,
+      "numMaxDelayRetries": 0,
+      "numNoDelayRetries": 0,
+      "numMinDelayRetries": 0,
+      "backoffFunction": "linear"
+    },
+    "disableSubscriptionOverrides": false,
+    "defaultThrottlePolicy": {
+      "maxReceivesPerSecond": 1
+    }
+  }
+}
+EOF
+}
+```
+- Server-side encryption (SSE)
+```
+resource "aws_sns_topic" "user_updates" {
+  name              = "user-updates-topic"
+  kms_master_key_id = "alias/aws/sns"
+}
+```
+
+
+
+### aws_sns_topic_subscription :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription)
+- Provides a resource for subscribing to SNS topics. Requires that an SNS topic exist for the subscription to attach to. This resource allows you to automatically place messages sent to SNS topics in SQS queues, send them as HTTP(S) POST requests to a given endpoint, send SMS messages, or notify devices / applications. The most likely use case for Terraform users will probably be SQS queues.
+```
+resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
+  topic_arn = "arn:aws:sns:us-west-2:432981146916:user-updates-topic"
+  protocol  = "sqs"
+  endpoint  = "arn:aws:sqs:us-west-2:432981146916:terraform-queue-too"
+}
+```
