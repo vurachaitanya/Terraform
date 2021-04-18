@@ -5,6 +5,24 @@
 - [TF Env Variables](https://www.terraform.io/docs/cli/config/environment-variables.html)
 
 
+### tags :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/resource-tagging)
+- Many AWS services implement resource tags as an essential part of managing components. These arbitrary key-value pairs can be utilized for billing, ownership, automation, access control, and many other use cases. Given that these tags are an important aspect of successfully managing an AWS environment, the Terraform AWS Provider implements additional functionality beyond the typical one-to-one resource lifecycle management for easier and more customized implementations.
+```
+resource "aws_vpc" "example" {
+  # ... other configuration ...
+
+  tags = {
+    Name  = "MyVPC"
+    Owner = "Operations"
+  }
+
+  lifecycle {
+    ignore_changes = [tags.Name]
+  }
+}
+```
+
 
 
 ### Variable :
@@ -13,6 +31,7 @@
 - When you declare variables in the root module of your configuration, you can set their values using CLI options and environment variables
 ```
 variable "user_information" {
+  description = "this is user information"
   type = object({
     name    = string
     address = string
@@ -555,3 +574,93 @@ resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
   endpoint  = "arn:aws:sqs:us-west-2:432981146916:terraform-queue-too"
 }
 ```
+
+
+
+### aws_kms_key :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key)
+- Provides a KMS customer master key.
+- policy - (Optional) A valid policy JSON document
+
+```
+resource "aws_kms_key" "a" {
+  description             = "KMS key 1"
+  deletion_window_in_days = 10
+}
+```
+
+
+
+### aws_kms_alias :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias)
+- Provides an alias for a KMS customer master key. AWS Console enforces 1-to-1 mapping between aliases & keys, but API (hence Terraform too) allows you to create as many aliases as the account limits allow you.
+- name_prefix - (Optional) Creates an unique alias beginning with the specified prefix. The name must start with the word "alias" followed by a forward slash (alias/). Conflicts with
+```
+resource "aws_kms_key" "a" {}
+
+resource "aws_kms_alias" "a" {
+  name          = "alias/my-key-alias"
+  name_prefix          = "my-key-us-west-1-"
+  target_key_id = aws_kms_key.a.key_id
+}
+```
+
+
+
+### aws_sns_topic_policy :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy)
+- Provides an SNS topic policy resource
+```
+resource "aws_sns_topic" "test" {
+  name = "my-topic-with-policy"
+}
+
+resource "aws_sns_topic_policy" "default" {
+  arn = aws_sns_topic.test.arn
+
+  policy = data.aws_iam_policy_document.sns_topic_policy.json
+}
+
+data "aws_iam_policy_document" "sns_topic_policy" {
+  policy_id = "__default_policy_ID"
+
+  statement {
+    actions = [
+      "SNS:Subscribe",
+      "SNS:SetTopicAttributes",
+      "SNS:RemovePermission",
+      "SNS:Receive",
+      "SNS:Publish",
+      "SNS:ListSubscriptionsByTopic",
+      "SNS:GetTopicAttributes",
+      "SNS:DeleteTopic",
+      "SNS:AddPermission",
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceOwner"
+
+      values = [
+        var.account-id,
+      ]
+    }
+
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    resources = [
+      aws_sns_topic.test.arn,
+    ]
+
+    sid = "__default_statement_ID"
+  }
+}
+```
+
+
+
