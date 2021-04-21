@@ -716,3 +716,62 @@ resource "aws_kinesis_firehose_delivery_stream" "extended_s3_stream" {
   }
 }
 ```
+
+
+### aws_sqs_queue :
+- [Terraform Doc Ref](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue)
+- AWS SNS Queue 
+
+```
+resource "aws_sqs_queue" "terraform_queue" {
+  name                      = "terraform-example-queue"
+  delay_seconds             = 90
+  max_message_size          = 2048
+  message_retention_seconds = 86400
+  receive_wait_time_seconds = 10
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.terraform_queue_deadletter.arn
+    maxReceiveCount     = 4
+  })
+
+  tags = {
+    Environment = "production"
+  }
+}
+```
+
+
+
+### aws_sqs_queue_policy :
+- [Terraform Doc Ref](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_policy)
+- Allows you to set a policy of an SQS Queue while referencing ARN of the queue within the policy.
+```
+resource "aws_sqs_queue" "q" {
+  name = "examplequeue"
+}
+
+resource "aws_sqs_queue_policy" "test" {
+  queue_url = aws_sqs_queue.q.id
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "sqspolicy",
+  "Statement": [
+    {
+      "Sid": "First",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "sqs:SendMessage",
+      "Resource": "${aws_sqs_queue.q.arn}",
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": "${aws_sns_topic.example.arn}"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+```
