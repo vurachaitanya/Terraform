@@ -861,6 +861,24 @@ resource "aws_ssm_activation" "foo" {
 
 
 
+### aws_ssm_association :
+- [Terraform Reff Doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_association)
+- Associates an SSM Document to an instance or EC2 tag.
+- `apply_only_at_cron_interval` - (Optional)
+
+```
+resource "aws_ssm_association" "example" {
+  name = aws_ssm_document.example.name
+
+  targets {
+    key    = "InstanceIds"
+    values = [aws_instance.example.id]
+  }
+}
+```
+
+
+
 ### aws_ssm_document :
 - [Terraform Reff Doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_document)
 - Provides an SSM Document resource
