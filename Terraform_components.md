@@ -822,3 +822,72 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
 EOF
 }
 ```
+
+
+
+### aws_ssm_activation :
+- [Terraform Reff Doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_activation)
+- Registers an on-premises server or virtual machine with Amazon EC2 so that it can be managed using Run Command.
+
+```
+resource "aws_iam_role" "test_role" {
+  name = "test_role"
+
+  assume_role_policy = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": {
+      "Effect": "Allow",
+      "Principal": {"Service": "ssm.amazonaws.com"},
+      "Action": "sts:AssumeRole"
+    }
+  }
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "test_attach" {
+  role       = aws_iam_role.test_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_ssm_activation" "foo" {
+  name               = "test_ssm_activation"
+  description        = "Test"
+  iam_role           = aws_iam_role.test_role.id
+  registration_limit = "5"
+  depends_on         = [aws_iam_role_policy_attachment.test_attach]
+}
+```
+
+
+
+### aws_ssm_document :
+- [Terraform Reff Doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_document)
+- Provides an SSM Document resource
+
+```
+resource "aws_ssm_document" "foo" {
+  name          = "test_document"
+  document_type = "Command"
+
+  content = <<DOC
+  {
+    "schemaVersion": "1.2",
+    "description": "Check ip configuration of a Linux instance.",
+    "parameters": {
+
+    },
+    "runtimeConfig": {
+      "aws:runShellScript": {
+        "properties": [
+          {
+            "id": "0.aws:runShellScript",
+            "runCommand": ["ifconfig"]
+          }
+        ]
+      }
+    }
+  }
+DOC
+}
+```
