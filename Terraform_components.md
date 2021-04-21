@@ -775,3 +775,50 @@ resource "aws_sqs_queue_policy" "test" {
 POLICY
 }
 ```
+
+
+
+### aws_db_instance :
+- [Terraform Reff Doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance)
+- Provides an RDS instance resource. A DB instance is an isolated database environment in the cloud. A DB instance can contain multiple user-created databases.
+```
+resource "aws_db_instance" "default" {
+  allocated_storage    = 10
+  engine               = "mysql"
+  engine_version       = "5.7"
+  instance_class       = "db.t3.micro"
+  name                 = "mydb"
+  username             = "foo"
+  password             = "foobarbaz"
+  parameter_group_name = "default.mysql5.7"
+  skip_final_snapshot  = true
+}
+```
+
+
+
+
+### aws_sfn_state_machine :
+- [Terraform Reff Doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sfn_state_machine)
+- Provides a Step Function State Machine resource
+
+```
+resource "aws_sfn_state_machine" "sfn_state_machine" {
+  name     = "my-state-machine"
+  role_arn = aws_iam_role.iam_for_sfn.arn
+
+  definition = <<EOF
+{
+  "Comment": "A Hello World example of the Amazon States Language using an AWS Lambda Function",
+  "StartAt": "HelloWorld",
+  "States": {
+    "HelloWorld": {
+      "Type": "Task",
+      "Resource": "${aws_lambda_function.lambda.arn}",
+      "End": true
+    }
+  }
+}
+EOF
+}
+```
