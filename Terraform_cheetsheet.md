@@ -20,3 +20,4 @@
 `-type=plan - Type of graph to output. Can be: plan, plan-destroy, apply, validate, input, refresh`
 - `terraform graph -draw-cycles` - Draw cycles for modules providers etc.
 - `terraform graph | dot -Tsvg > graph.svg` - Graph from dot to svg format.
+- `terraform show` - Shows the state of the terrform resources
