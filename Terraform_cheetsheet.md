@@ -9,6 +9,7 @@
 -	`terraform providers` shows information about provider requirements of the configuration in the current working dir.
 -	`terraform fmt` rewrite Terraform configuration files to a canonical format and style. This command applies a subset of the Terraform language style conventions, along with other minor adjustments for readability.
 -	`terraform apply` implement the current working dir configurations and creates states files
+-	`terraform apply -auto-approve` Terraform skip interactive approval
 -	`terraform destroy` destroys the current working dir configurations based on configurations & State file. 
 -	 `terraform console` interactive command-line console for evaluating and experimenting.
 -	`terraform validate` validates the configuration files in a directory, referring and not accessing any remote services. configuration is syntactically valid and internally consistent, regardless of any provided variables or existing state.
