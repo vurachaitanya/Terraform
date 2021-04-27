@@ -25,7 +25,8 @@ resource "aws_vpc" "example" {
 
 
 ### Interpolation syntax :
-- Sample code to create vpc & Security group creation using iterpolation
+- Sample code to create vpc & Security group creation using iterpolation.
+- The neat thing about using interpolation syntax to reference the attribute of a resource in another resource is that it allows Terraform to work out the dependency order of the resources. From our HCL above Terraform can determine that first it needs to create the VPC because it needs the id that AWS assigns to the VPC in order to create the security group. It then knows that it needs to create the security group next as it needs the id of the security group in order to create the security group rule. Terraform uses this information to build up a dependency graph and then tries to run in parallel as much as possible.
 ```
 provider "aws" {
  region = "us-east-1"
