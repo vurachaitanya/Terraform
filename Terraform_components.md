@@ -24,6 +24,35 @@ resource "aws_vpc" "example" {
 ```
 
 
+### Interpolation syntax :
+```
+provider "aws" {
+ region = "us-east-1"
+ profile = "personal"
+ }
+
+ resource "aws_vpc" "my_vpc" {
+ cidr_block = "10.0.0.0/16"
+ }
+
+ resource "aws_security_group" "my_security_group" {
+ vpc_id = aws_vpc.my_vpc.id                ############################# Interpolation syntax
+ name = "Example security group"
+ }
+
+ resource "aws_security_group_rule" "tls_in" {
+ protocol = "tcp"
+
+ security_group_id = aws_security_group.my_security_group.id    ############################# Interpolation syntax
+ from_port = 443
+ to_port = 443
+ type = "ingress"
+ cidr_blocks = ["0.0.0.0/0"]
+ }
+
+```
+- The format of using an output attribute from a resource is `<resource_type>.<resource_identifier>.<attribute_-name>`. In the VPC id example we are getting the output from an aws_vpc resource type, with the identifier name my_vpc and we want to get the id attribute value. So hence we end up with aws_vpc.my_vpc.id.
+
 
 ### Variable :
 - [Terraform Doc Reff](https://www.terraform.io/docs/language/values/variables.html#declaring-an-input-variable)
