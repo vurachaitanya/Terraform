@@ -25,6 +25,7 @@ resource "aws_vpc" "example" {
 
 
 ### Interpolation syntax :
+- Sample code to create vpc & Security group creation using iterpolation
 ```
 provider "aws" {
  region = "us-east-1"
