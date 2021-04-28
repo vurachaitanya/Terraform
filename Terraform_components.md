@@ -386,6 +386,66 @@ resource "aws_iam_policy" "example" {
 ```
 
 
+### aws_iam_policy_attachment :
+- [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment)
+- Attaches a Managed IAM Policy to user(s), role(s), and/or group(s)
+- **NOTE :** - users/roles/groups that have the attached policy via any other mechanism (including other Terraform resources) will have that attached policy revoked by this resource. Consider aws_iam_role_policy_attachment, aws_iam_user_policy_attachment, or aws_iam_group_policy_attachment instead. These resources do not enforce exclusive attachment of an IAM policy.
+```
+resource "aws_iam_user" "user" {
+  name = "test-user"
+}
+
+resource "aws_iam_role" "role" {
+  name = "test-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "policy" {
+  name        = "test-policy"
+  description = "A test policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "test-attach" {
+  name       = "test-attachment"
+  users      = [aws_iam_user.user.name]
+  roles      = [aws_iam_role.role.name]
+  policy_arn = aws_iam_policy.policy.arn
+}
+```
+
+
+
+
 
 ### aws_partition: 
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition)
