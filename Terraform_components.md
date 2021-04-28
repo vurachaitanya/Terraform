@@ -501,6 +501,47 @@ resource "aws_iam_role" "instance" {
   assume_role_policy = data.aws_iam_policy_document.instance-assume-role-policy.json
 }
 ```
+- Other ways of attacing policys to roles.
+```
+########### 1st way
+resource "aws_iam_role_policy_attachment" "Dev_role_full" {
+  role       = "${var.iam_role_name}"
+  count      = "${length(var.iam_policy_arn)}"
+  policy_arn = "${var.iam_policy_arn[count.index]}"
+}
+
+iam_policy_arn = ["arn:aws-us-gov:iam::aws:policy/AWSCodeBuildDeveloperAccess", 
+ "arn:aws-us-gov:iam::aws:policy/AWSCodeCommitPowerUser",
+ "arn:aws-us-gov:iam::aws:policy/AWSCodeDeployFullAccess",
+ "arn:aws-us-gov:iam::aws:policy/AWSCodePipeline_FullAccess"]
+ 
+ 
+########### 2nd way
+ resource "aws_iam_role_policy_attachment" "Dev_role_full" {
+  for_each = toset([
+    "arn:aws-us-gov:iam::aws:policy/AWSCodeBuildDeveloperAccess", 
+    "arn:aws-us-gov:iam::aws:policy/AWSCodeCommitPowerUser",
+    "arn:aws-us-gov:iam::aws:policy/AWSCodeDeployFullAccess",
+    "arn:aws-us-gov:iam::aws:policy/AWSCodePipeline_FullAccess"
+  ])
+  role       = var.iam_role_name
+  policy_arn = each.value
+}
+
+################ 3rd way
+
+resource "aws_iam_role" "Dev_role_full" {
+  managed_policy_arns = ["arn:aws-us-gov:iam::aws:policy/AWSCodeBuildDeveloperAccess", 
+ "arn:aws-us-gov:iam::aws:policy/AWSCodeCommitPowerUser",
+ "arn:aws-us-gov:iam::aws:policy/AWSCodeDeployFullAccess",
+ "arn:aws-us-gov:iam::aws:policy/AWSCodePipeline_FullAccess"]
+  name               = "Dev_role_full"
+  description        = "Dev full access for build deploy"
+  assume_role_policy = data.aws_iam_policy_document.policy.json
+}
+```
+
+
 
 
 
