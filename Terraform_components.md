@@ -216,6 +216,91 @@ resource "aws_instance" "example" {
 
 
 
+
+### AWS Organizations :
+
+- `aws_organizations_organizational_unit` - Provides a resource to create an organizational unit. [Terraform doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit)
+```
+resource "aws_organizations_organizational_unit" "example" {
+  name      = "example"
+  parent_id = aws_organizations_organization.example.roots[0].id
+}
+```
+
+- `aws_organizations_policy` - Provides a resource to manage an AWS Organizations policy. [Terraform doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_policy)
+```
+resource "aws_organizations_policy" "example" {
+  name = "example"
+
+  content = <<CONTENT
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Allow",
+    "Action": "*",
+    "Resource": "*"
+  }
+}
+CONTENT
+}
+```
+
+
+- `aws_organizations_policy_attachment` - Provides a resource to attach an AWS Organizations policy to an organization account, root, or unit. [Terraform doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_policy_attachment)
+
+```
+resource "aws_organizations_policy_attachment" "root" {
+  policy_id = aws_organizations_policy.example.id
+  target_id = aws_organizations_organization.example.roots[0].id
+}
+```
+
+- Create AWS SCP at Org leavel [AWS Doc](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html)
+- [Old version of usage](https://github.com/trussworks/terraform-aws-org-scp)
+- [Latest version of usage](https://github.com/trussworks/terraform-aws-ou-scp)
+
+#####  Below block is to block S3 for blocking un encrypted data on S3 bucket
+```
+data "aws_iam_policy_document" "deny_unencrypted_uploads" {  
+  statement {  
+    sid = "DenyUnencryptedUploads" 
+
+    actions = [  
+         "s3:PutObject",
+    ]     
+ 
+    resources = [  
+         "arn:aws:s3:::*/*",
+    ]  
+    
+    effect = "Deny" 
+
+    condition {  
+      test     = "Null" 
+      variable = "s3:x-amz-server-side-encryption" 
+
+      values = [  
+            "true",
+      ]
+    }
+  }
+}
+resource "aws_organizations_policy" "deny_unencrypted_uploads" {  
+  name        = "Deny Unencrypted S3 Uploads" 
+  description = "Deny the ability to upload an unencrypted S3 Object." 
+
+  content = 
+"${data.aws_iam_policy_document.deny_unencrypted_uploads.json}"
+}
+resource "aws_organizations_policy_attachment" "deny_unencrypted_uploads_attachment" {  
+  policy_id = "${aws_organizations_policy.deny_unencrypted_uploads.id}" 
+  target_id = "${var.target_id}"
+}
+```
+
+
+
+
 ### aws_lambda_function_event_invoke_config :
 - [Terraform Doc Reff](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function_event_invoke_config)
 - Manages an asynchronous invocation configuration for a Lambda Function or Alias. 
