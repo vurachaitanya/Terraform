@@ -218,6 +218,7 @@ resource "aws_instance" "example" {
 
 
 ### AWS Organizations :
+- [securing-access-to-amis-aws-marketplace](https://aws.amazon.com/blogs/awsmarketplace/securing-access-to-amis-aws-marketplace/)
 
 - `aws_organizations_organizational_unit` - Provides a resource to create an organizational unit. [Terraform doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit)
 ```
