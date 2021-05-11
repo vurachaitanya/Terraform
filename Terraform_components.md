@@ -259,7 +259,8 @@ resource "aws_organizations_policy_attachment" "root" {
 - [Old version of usage](https://github.com/trussworks/terraform-aws-org-scp)
 - [Latest version of usage](https://github.com/trussworks/terraform-aws-ou-scp)
 
-#####  Below block is to block S3 for blocking un encrypted data on S3 bucket
+#####  Below block is to block S3 for blocking un encrypted data on S3 bucket 
+- [Reff of below code](https://blog.scalesec.com/using-terraform-to-secure-your-aws-organizations-399c3dcb4b5a)
 ```
 data "aws_iam_policy_document" "deny_unencrypted_uploads" {  
   statement {  
