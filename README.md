@@ -16,6 +16,10 @@
 - [Linuxfoundation Terraform deep dive](https://events19.linuxfoundation.org/wp-content/uploads/2017/12/Hashicorp-Terraform-Deep-Dive-with-no-Fear-Victor-Turbinsky-Texuna.pdf)
 - [awesome-terraform](https://github.com/shuaibiyy/awesome-terraform)
 - [CI/CD tools stack](https://blog.gruntwork.io/)
+- [Terraform Production Pipeline with Multi-branch Pipeline](https://youtu.be/SikT2uinPXo)
+- [Terraform 101 by Hashi Corp](https://www.hashicorp.com/events/webinars/terraform-cloud-and-terraform-enterprise-101?mkt_tok=ODQ1LVpMRi0xOTEAAAF8_KHwHoWUW4ZpT9zbWd8Iod3zd1fMx7j1w9OGR26Vq1uDD3LFyeOBWPcsjySzYeoLzZiGyLnU18dRqOL2vC93RabIUamsQEN5qmF6j1mlZRPQ3A)
+
+
 #### Sample Variable file :
 ```
 #cat variable.tf
