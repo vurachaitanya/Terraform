@@ -188,6 +188,13 @@ tolist([
 - The Terraform console command opens an interactive console that you can use to evaluate expressions in the context of your configuration. This can be very useful when working with and troubleshooting variable definitions.
 - Call varilables which are defined in variables.tf or any variables file can be called and debug using `var.aws_region`
 
+- YAML :
+`yamldecode(file("C:\Users\abcd\xyz.yaml"))`
+
+
+- JSON :
+`jsondecode(file("C:\Users\abcd\xyz.yaml"))`
+
 #### MAPS:
 - Setting the type to map(string) tells Terraform to expect strings for the values in the map. Map keys are always strings. Like dictionaries or maps from programming languages, you can retrieve values from a map with the corresponding key
 ```
