@@ -23,3 +23,7 @@
 - `terraform graph | dot -Tsvg > graph.svg` - Graph from dot to svg format.
 - `terraform show` - Shows the state of the terrform resources.
 - `terraform state list` - Shows the list of modules used.
+#### Having issues resource in deleting using terraform :
+- `terraform refresh`  which gets the updated status from the AWS/Azure and update the status.
+- `terraform init && terraform apply` to see if the issues got fixed.
+- `terraform state rm module.<resource>.<resource values>` EXAMPLE: `terraform state rm module.foo.packet_device.worker` - to remove resources from statefiles manually.
