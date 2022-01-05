@@ -1,5 +1,11 @@
 # Terraform
 
+### Terraform compare :
+- Terraform - AWS,Azure,GCP
+- pulumi - AWS,Azure,GCP
+- Cloud formation - AWS
+- Resource manager - Azure
+
 ### Terraform Learning
 - Resource example :"aws_internet_gateway"
 - Provider example : "aws" in providers files.
